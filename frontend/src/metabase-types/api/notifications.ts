@@ -50,3 +50,20 @@ export type PulseParameter = {
   type?: string;
   value?: string;
 };
+
+export type ChannelStatus = {
+  allows_recipients: boolean;
+  configured: boolean;
+  fields?: Record<string, string>[];
+  recipients?: string[];
+  schedules: ScheduleType[];
+  name: "Email" | "Slack";
+  type: "email" | "slack";
+};
+
+export type ChannelApiResponse = {
+  channels: {
+    slack: ChannelStatus;
+    email: ChannelStatus;
+  };
+};
