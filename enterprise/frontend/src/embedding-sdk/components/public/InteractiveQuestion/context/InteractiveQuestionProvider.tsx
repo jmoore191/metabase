@@ -1,4 +1,3 @@
-import type { LocationDescriptorObject } from "history";
 import {
   createContext,
   useContext,
@@ -14,15 +13,9 @@ import {
 } from "embedding-sdk/hooks/private/use-load-question";
 import { useSdkSelector } from "embedding-sdk/store";
 import { getPlugins } from "embedding-sdk/store/selectors";
-import * as Urls from "metabase/lib/urls";
-import {
-  deserializeCard,
-  parseHash,
-  type QueryParams,
-} from "metabase/query_builder/actions";
+import type { LoadSdkQuestionParams } from "embedding-sdk/types/question";
 import type { Mode } from "metabase/visualizations/click-actions/Mode";
 import { getEmbeddingMode } from "metabase/visualizations/click-actions/lib/modes";
-import type { CardId, Card } from "metabase-types/api";
 
 interface InteractiveQuestionContextType
   extends Omit<LoadQuestionHookResult, "loadQuestion"> {
@@ -43,36 +36,13 @@ export const InteractiveQuestionContext = createContext<
   InteractiveQuestionContextType | undefined
 >(undefined);
 
-type InteractiveQuestionProviderProps = PropsWithChildren<{
-  componentPlugins?: SdkPluginsConfig;
-  onReset?: () => void;
-  onNavigateBack?: () => void;
-}>;
-
-// allow a provider with location + params
-export const InteractiveQuestionProviderWithLocation = ({
-  location,
-  params,
-  ...providerProps
-}: InteractiveQuestionProviderProps & {
-  location: LocationDescriptorObject;
-  params: QueryParams;
-}) => {
-  const cardId = Urls.extractEntityId(params.slug);
-  const { options, serializedCard } = parseHash(location.hash);
-  const deserializedCard = serializedCard
-    ? deserializeCard(serializedCard)
-    : undefined;
-
-  return (
-    <InteractiveQuestionProvider
-      {...providerProps}
-      cardId={cardId}
-      options={options}
-      deserializedCard={deserializedCard}
-    />
-  );
-};
+type InteractiveQuestionProviderProps = PropsWithChildren<
+  {
+    componentPlugins?: SdkPluginsConfig;
+    onReset?: () => void;
+    onNavigateBack?: () => void;
+  } & LoadSdkQuestionParams
+>;
 
 export const InteractiveQuestionProvider = ({
   cardId,
@@ -82,11 +52,7 @@ export const InteractiveQuestionProvider = ({
   onReset,
   onNavigateBack,
   children,
-}: InteractiveQuestionProviderProps & {
-  cardId?: CardId;
-  options: QueryParams;
-  deserializedCard?: Card;
-}) => {
+}: InteractiveQuestionProviderProps) => {
   const {
     question,
     queryResults,

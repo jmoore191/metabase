@@ -1,5 +1,3 @@
-import type { LocationDescriptorObject } from "history";
-
 import type { Deferred } from "metabase/lib/promise";
 import type { QueryParams } from "metabase/query_builder/actions";
 import type { ObjectId } from "metabase/visualizations/components/ObjectDetail/types";

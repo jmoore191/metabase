@@ -73,7 +73,7 @@ export function useLoadQuestion({
     setQuestionResult(result);
 
     return result;
-  }, [dispatch]);
+  }, [dispatch, options, deserializedCard, cardId]);
 
   const { originalQuestion } = loadQuestionState.value ?? {};
 
