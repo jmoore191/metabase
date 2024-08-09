@@ -22,15 +22,9 @@ export interface LoadQuestionHookResult {
   isQuestionLoading: boolean;
   isQueryRunning: boolean;
 
-  loadQuestion(): Promise<
-    SdkQuestionResult & {
-      originalQuestion?: Question;
-    }
-  >;
-
+  loadQuestion(): Promise<SdkQuestionResult & { originalQuestion?: Question }>;
   onQuestionChange(question: Question): Promise<void>;
-
-  onNavigateToNewCard(nextCardParams: NavigateToNewCardParams): Promise<void>;
+  onNavigateToNewCard(params: NavigateToNewCardParams): Promise<void>;
 }
 
 export function useLoadQuestion({
@@ -63,9 +57,9 @@ export function useLoadQuestion({
   const [loadQuestionState, loadQuestion] = useAsyncFn(async () => {
     const result = await dispatch(
       runQuestionOnLoadSdk({
-        cardId,
-        deserializedCard,
         options,
+        deserializedCard,
+        cardId,
         cancelDeferred: deferred(),
       }),
     );
@@ -98,10 +92,10 @@ export function useLoadQuestion({
   );
 
   const [navigateToNewCardState, onNavigateToNewCard] = useAsyncFn(
-    async (nextCardParams: NavigateToNewCardParams) => {
+    async (params: NavigateToNewCardParams) => {
       const result = await dispatch(
         runQuestionOnNavigateSdk({
-          ...nextCardParams,
+          ...params,
           originalQuestion,
           cancelDeferred: deferred(),
         }),
