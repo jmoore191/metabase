@@ -10,6 +10,7 @@ import {
   createPublicQuestionLink,
   modal,
   openNativeEditor,
+  openSharingMenu,
 } from "e2e/support/helpers";
 
 const { PEOPLE } = SAMPLE_DATABASE;
@@ -102,7 +103,7 @@ describe("scenarios > public > question", () => {
       cy.signInAsNormalUser().then(() => {
         visitQuestion(id);
 
-        cy.icon("share").click();
+        openSharingMenu("Public link");
 
         cy.findByTestId("public-link-popover-content").within(() => {
           cy.findByText("Public link").should("be.visible");

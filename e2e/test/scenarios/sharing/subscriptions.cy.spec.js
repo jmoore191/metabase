@@ -28,6 +28,7 @@ import {
   setFilter,
   multiAutocompleteInput,
   removeMultiAutocompleteValue,
+  openSharingMenu,
 } from "e2e/support/helpers";
 
 const { PRODUCTS, PRODUCTS_ID } = SAMPLE_DATABASE;
@@ -49,10 +50,7 @@ describe("scenarios > dashboard > subscriptions", () => {
     openPublicLinkPopoverFromMenu();
     cy.findByTestId("public-link-popover-content").should("be.visible");
 
-    // close link popover
-    cy.icon("share").click();
-
-    openEmbedModalFromMenu();
+    openSharingMenu("Embed");
     getEmbedModalSharingPane().within(() => {
       cy.findByText("Public embed").should("be.visible");
       cy.findByText("Static embed").should("be.visible");

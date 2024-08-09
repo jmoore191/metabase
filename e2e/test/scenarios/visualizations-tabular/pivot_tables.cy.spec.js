@@ -20,6 +20,7 @@ import {
   queryBuilderMain,
   openNotebook,
   getNotebookStep,
+  sharingMenu,
 } from "e2e/support/helpers";
 import { PIVOT_TABLE_BODY_LABEL } from "metabase/visualizations/visualizations/PivotTable/constants";
 
@@ -681,7 +682,7 @@ describe("scenarios > visualizations > pivot tables", { tags: "@slow" }, () => {
 
         it("should display pivot table in a public link", () => {
           if (test.case === "question") {
-            cy.icon("share").click();
+            sharingMenu("Create a public link");
             modal().within(() => {
               cy.findByText("Save").click();
             });
@@ -709,7 +710,7 @@ describe("scenarios > visualizations > pivot tables", { tags: "@slow" }, () => {
 
         it("should display pivot table in an embed URL", () => {
           if (test.case === "question") {
-            cy.icon("share").click();
+            sharingMenu("Create a public link");
             modal().within(() => {
               cy.findByText("Save").click();
             });
