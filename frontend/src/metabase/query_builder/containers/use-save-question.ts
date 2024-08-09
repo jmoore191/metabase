@@ -11,7 +11,7 @@ import type Question from "metabase-lib/v1/Question";
 
 type UseSaveQuestionParams = {
   scheduleCallback?: ScheduleCallback;
-}
+};
 
 type UseSaveQuestionResult = (
   question: Question,
@@ -20,7 +20,7 @@ type UseSaveQuestionResult = (
 
 export function useSaveQuestion({
   scheduleCallback,
-}: UseSaveQuestionParams): UseSaveQuestionResult {
+}: UseSaveQuestionParams = {}): UseSaveQuestionResult {
   const dispatch = useDispatch();
 
   return useCallback(

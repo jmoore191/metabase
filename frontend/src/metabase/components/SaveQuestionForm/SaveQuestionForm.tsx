@@ -2,7 +2,6 @@ import { TransitionGroup } from "react-transition-group";
 import { t } from "ttag";
 
 import FormCollectionPicker from "metabase/collections/containers/FormCollectionPicker";
-import { getPlaceholder } from "metabase/components/SaveQuestionForm/util";
 import Button from "metabase/core/components/Button";
 import FormErrorMessage from "metabase/core/components/FormErrorMessage";
 import FormFooter from "metabase/core/components/FormFooter";
@@ -16,6 +15,7 @@ import { DEFAULT_MODAL_Z_INDEX } from "metabase/ui";
 
 import { useSaveQuestionContext } from "./context";
 import type { SaveQuestionFormProps } from "./types";
+import { getPlaceholder } from "./util";
 
 export const SaveQuestionForm = ({ onCancel }: SaveQuestionFormProps) => {
   const { question, originalQuestion, showSaveType, values } =

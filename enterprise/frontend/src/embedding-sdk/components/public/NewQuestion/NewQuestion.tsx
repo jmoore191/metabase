@@ -4,19 +4,11 @@ import {
   InteractiveQuestionProvider,
   useInteractiveQuestionContext,
 } from "embedding-sdk/components/public/InteractiveQuestion/context";
-import { useListCollectionsQuery } from "metabase/api";
-import type { FormValues } from "metabase/containers/SaveQuestionModal";
-import {
-  SAVE_QUESTION_SCHEMA,
-  SaveQuestionForm,
-  createQuestion,
-  getInitialValues,
-  getPlaceholder,
-  getTitle,
-} from "metabase/containers/SaveQuestionModal";
-import { FormProvider } from "metabase/forms";
+import { SaveQuestionForm } from "metabase/components/SaveQuestionForm";
+import { SaveQuestionProvider } from "metabase/components/SaveQuestionForm/context";
 import { useSelector } from "metabase/lib/redux";
 import { useCreateQuestion } from "metabase/query_builder/containers/use-create-question";
+import { useSaveQuestion } from "metabase/query_builder/containers/use-save-question";
 import { getMetadata } from "metabase/selectors/metadata";
 import { Box, Button, Stack, Tabs, Title, Group, Overlay } from "metabase/ui";
 import Question from "metabase-lib/v1/Question";
@@ -26,44 +18,30 @@ import {
   QuestionVisualization,
 } from "../InteractiveQuestion/components";
 
-const SaveNewQuestion = ({ onClose }: { onClose?: () => void } = {}) => {
+export const SaveQuestion = ({ onClose }: { onClose: () => void }) => {
   const { question } = useInteractiveQuestionContext();
-  const { handleCreate } = useCreateQuestion();
 
-  const { data: collections = [] } = useListCollectionsQuery({});
+  const handleCreate = useCreateQuestion();
+  const handleSave = useSaveQuestion();
 
   if (!question) {
     return null;
   }
 
-  const initialValues = getInitialValues(collections, null, question, null);
-  const placeholder = getPlaceholder(question.type());
-  const title = getTitle(question.type());
-
-  const handleSubmit = async (details: FormValues) => {
-    await createQuestion(details, question, handleCreate);
-  };
-
   return (
-    <FormProvider
-      initialValues={{ ...initialValues }}
-      onSubmit={handleSubmit}
-      validationSchema={SAVE_QUESTION_SCHEMA}
-      enableReinitialize
+    <SaveQuestionProvider
+      question={question}
+      originalQuestion={null}
+      onCreate={handleCreate}
+      onSave={handleSave}
+      multiStep={false}
+      initialCollectionId={null}
     >
-      {({ values }) => (
-        <Stack>
-          <Title>{title}</Title>
-          <SaveQuestionForm
-            showSaveType={false}
-            originalQuestion={null}
-            values={values}
-            placeholder={placeholder}
-            onCancel={onClose}
-          />
-        </Stack>
-      )}
-    </FormProvider>
+      <Stack>
+        <Title></Title>
+        <SaveQuestionForm onCancel={onClose} />
+      </Stack>
+    </SaveQuestionProvider>
   );
 };
 
@@ -78,7 +56,7 @@ export const NewQuestion = () => {
       <Box w="100%" h="100%" pos="relative">
         {isSaving && (
           <Overlay bg="bg-white">
-            <SaveNewQuestion onClose={() => setIsSaving(false)} />
+            <SaveQuestion onClose={() => setIsSaving(false)} />
           </Overlay>
         )}
         <Tabs defaultValue="notebook">
