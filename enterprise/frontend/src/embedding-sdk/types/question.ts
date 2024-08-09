@@ -9,12 +9,12 @@ export interface SdkQuestionResult {
   queryResults?: any[];
 }
 
-export type LoadSdkQuestionParams = {
-  cancelDeferred?: Deferred;
-  cardId?: CardId;
+export interface LoadSdkQuestionParams {
   options: QueryParams;
   deserializedCard?: Card;
-};
+  cardId?: CardId;
+  cancelDeferred?: Deferred;
+}
 
 export interface NavigateToNewCardParams {
   nextCard: Card;
