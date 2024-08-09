@@ -104,7 +104,7 @@ export const getPerformanceTabMetadata = () =>
   [
     {
       name: t`Database caching`,
-      path: "/admin/performance",
+      path: "/admin/performance/databases",
       key: "performance-databases",
       tabId: PerformanceTabId.Databases,
     },

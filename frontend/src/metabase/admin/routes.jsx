@@ -165,11 +165,11 @@ const getRoutes = (store, CanAccessSettings, IsAdmin) => (
       >
         <Route title={t`Performance`}>
           <IndexRedirect to={PerformanceTabId.Databases} />
-          {PLUGIN_CACHING.tabMetadata.map(({ name, path, key, tabId }) => (
+          {PLUGIN_CACHING.getTabMetadata().map(({ name, key, tabId }) => (
             <Route
               component={() => <PerformanceApp tabId={tabId} />}
               title={name}
-              path={path}
+              path={tabId}
               key={key}
             />
           ))}

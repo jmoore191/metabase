@@ -39,7 +39,7 @@ describe("scenarios > admin > performance", () => {
       cy.visit("/admin");
       cy.findByRole("link", { name: "Performance" }).click();
     });
-    it("tabs", () => {
+    it("has the right tabs", () => {
       cy.findByRole("tab", { name: "Database caching" }).should("be.visible");
       cy.findByRole("tab", { name: "Model persistence" }).should("be.visible");
       cy.findByRole("tab", { name: "Dashboard and question caching" }).should(
@@ -161,6 +161,14 @@ describe("scenarios > admin > performance", () => {
         );
       }
     };
+
+    it("has the right tabs", () => {
+      cy.findByRole("tab", { name: "Database caching" }).should("be.visible");
+      cy.findByRole("tab", { name: "Dashboard and question caching" }).should(
+        "be.visible",
+      );
+      cy.findByRole("tab", { name: "Model persistence" }).should("be.visible");
+    });
 
     it("can call cache invalidation endpoint for Sample Database", () => {
       openStrategyFormForDatabaseOrDefaultPolicy(
