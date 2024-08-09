@@ -88,6 +88,9 @@ import {
 } from "../selectors";
 import { isNavigationAllowed } from "../utils";
 
+import { useCreateQuestion } from "./use-create-question";
+import { useSaveQuestion } from "./use-save-question";
+
 const timelineProps = {
   query: { include: "events" },
   loadingAndErrorWrapper: false,
@@ -247,14 +250,9 @@ function QueryBuilder(props) {
    */
   const [isCallbackScheduled, scheduleCallback] = useCallbackEffect();
 
-  const { handleCreate } = useCreateQuestion({
-    isCallbackScheduled,
-    scheduleCallback,
-  });
+  const handleCreate = useCreateQuestion({ scheduleCallback });
 
-  const handleSave = useSaveQuestion({
-    scheduleCallback,
-  });
+  const handleSave = useSaveQuestion({ scheduleCallback });
 
   useMount(() => {
     initializeQB(location, params);

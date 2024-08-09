@@ -9,17 +9,21 @@ import {
 } from "metabase/query_builder/actions";
 import type Question from "metabase-lib/v1/Question";
 
-export const useSaveQuestion = ({
-  scheduleCallback,
-}: {
+type UseSaveQuestionParams = {
   scheduleCallback?: ScheduleCallback;
-} = {}) => {
+}
+
+type UseSaveQuestionResult = (
+  question: Question,
+  config?: { rerunQuery?: boolean },
+) => Promise<void>;
+
+export function useSaveQuestion({
+  scheduleCallback,
+}: UseSaveQuestionParams): UseSaveQuestionResult {
   const dispatch = useDispatch();
 
-  const handleSave: (
-    question: Question,
-    config?: { rerunQuery?: boolean },
-  ) => Promise<void> = useCallback(
+  return useCallback(
     async (updatedQuestion: Question, { rerunQuery } = {}) => {
       await dispatch(apiUpdateQuestion(updatedQuestion, { rerunQuery }));
       await dispatch(setUIControls({ isModifiedFromNotebook: false }));
@@ -32,5 +36,4 @@ export const useSaveQuestion = ({
     },
     [dispatch, scheduleCallback],
   );
-  return { handleSave };
-};
+}

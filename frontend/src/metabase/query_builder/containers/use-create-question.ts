@@ -9,14 +9,16 @@ import {
 } from "metabase/query_builder/actions";
 import type Question from "metabase-lib/v1/Question";
 
+interface UseCreateQuestionParams {
+  scheduleCallback?: ScheduleCallback;
+}
+
 export const useCreateQuestion = ({
   scheduleCallback,
-}: {
-  scheduleCallback?: ScheduleCallback;
-} = {}) => {
+}: UseCreateQuestionParams) => {
   const dispatch = useDispatch();
 
-  const handleCreate = useCallback(
+  return useCallback(
     async (newQuestion: Question) => {
       const shouldBePinned =
         newQuestion.type() === "model" || newQuestion.type() === "metric";
@@ -31,5 +33,4 @@ export const useCreateQuestion = ({
     },
     [dispatch, scheduleCallback],
   );
-  return { handleCreate };
 };
